@@ -11,6 +11,7 @@ class ShowroomList(models.Model):
 
 
 class CarList(models.Model):
+    showroom=models.ForeignKey(ShowroomList,on_delete=models.CASCADE,blank=True,null=True)
     price= models.DecimalField(max_digits=9,decimal_places=2,null=True,blank=True)
     name=models.CharField(max_length=255)
     cassinumber=models.CharField(max_length=255,null=True,blank=True)

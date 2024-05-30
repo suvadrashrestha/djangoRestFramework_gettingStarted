@@ -35,7 +35,7 @@ from rest_framework.views import APIView
 
 
 
-# function based view
+# function based view and with serializers
 @api_view(['GET','POST'])
 def car_list_view(request):
     if request.method=='GET':
@@ -61,7 +61,7 @@ def car_detail_view(request,pk):
         return Response(serializer.data,status=status.HTTP_200_OK)
     elif request.method=='PUT':
         car=CarList.objects.get(pk=pk)
-        #weather to create or update depends if you pass instance or not 
+        #wheather to create or update depends if you pass instance or not 
         serializer=CarSerializer(car,data=request.data)
         if serializer.is_valid():
             print(serializer.validated_data)
@@ -76,7 +76,7 @@ def car_detail_view(request,pk):
     
 
 # class based view with  extending APIview class 
-class showroomView(APIView):
+class ShowroomView(APIView):
     def get(self,request):
         showroom=ShowroomList.objects.all()
         serializer=showroomSerializer(showroom,many=True)
@@ -86,7 +86,31 @@ class showroomView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.validated_data,status=status.HTTP_201_CREATED)
-        
+
+
+
+class ShowroomDetailView(APIView):
+    def get(self,request,pk):
+        try:
+           showroom=ShowroomList.objects.get(pk=pk)
+        except ShowroomList.DoesNotExist:
+            return Response({"error":"showroom not found"},status=status.HTTP_404_NOT_FOUND)
+        serializer=showroomSerializer(showroom)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+    def put(self,request,pk):
+        showroom= ShowroomList.objects.get(pk=pk)
+        serializer=showroomSerializer(showroom,data=request.data)
+        #if it is not valid then it gives error 
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data,status=status.HTTP_200_OK)
+    def delete(self,request,pk):
+        showroom= ShowroomList.objects.get(pk=pk)
+        showroom.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
 
 
 

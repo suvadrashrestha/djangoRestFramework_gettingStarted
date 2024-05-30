@@ -7,25 +7,19 @@ def alphanumneric(value):
           raise serializers.ValidationError("only  alphanumeric is allowed")
 
 
-class showroomSerializer(serializers.ModelSerializer):
-
-     class Meta:
-          model=ShowroomList
-          fields='__all__'
 
 
 
 
-
-class CarSerializer(serializers.ModelSerializer):
+class CarSerializer(serializers.Serializer):
 #     This is for serializers.Serializer class
 #     #the name of attribute must be same as model attribute for serializer class
-#     price=serializers.DecimalField(max_digits=9,decimal_places=2)
-#     cassinumber=serializers.CharField(validators=[alphanumneric])
-#     id=serializers.IntegerField(read_only=True)
-#     name=serializers.CharField()
-#     description=serializers.CharField(required=False,allow_blank=True)
-#     active=serializers.BooleanField(read_only=True)
+    price=serializers.DecimalField(max_digits=9,decimal_places=2)
+    cassinumber=serializers.CharField(validators=[alphanumneric])
+    id=serializers.IntegerField(read_only=True)
+    name=serializers.CharField()
+    description=serializers.CharField(required=False,allow_blank=True)
+    active=serializers.BooleanField(read_only=True)
 
 
 
@@ -64,3 +58,10 @@ class CarSerializer(serializers.ModelSerializer):
          instance.save()
          return instance
     
+
+
+class showroomSerializer(serializers.ModelSerializer):
+     # Model serializer class has it default create ,update etc functions ' it can be overridden if needed
+     class Meta:
+          model=ShowroomList
+          fields='__all__'
